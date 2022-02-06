@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.com.coverageprojectmodules</groupId>
+	<artifactId>coverageprojectmodules</artifactId>
+	<version>1.1.0</version>
+	<name>coverageprojectmodules</name>
+	
+	<packaging>pom</packaging>
+
+	<description>Exemplo de configuração jacoco para cobertura de testes no sonar de projeto multi módulo</description>
+	
+	<properties>
+		<jacoco.version>0.8.3</jacoco.version>
+		<maven.surefire.version>3.0.0-M5</maven.surefire.version>
+		
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+	    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+	    <sonar.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-agregate/jacoco.xml</sonar.jacoco.xmlReportPaths>
+	    <sonar.language>java</sonar.language>
+		<report-aggregate.dir>${project.basedir}/../coverageprojectmodules-application/target/site/jacoco-agregate/</report-aggregate.dir>    
+	</properties>
+	
+	<modules>
+		<module>coverageprojectmodules-application</module>
+		<module>coverageprojectmodules-domain</module>
+		<module>coverageprojectmodules-tests</module>
+	</modules>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.6.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco.version}</version>
+			<type>maven-plugin</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+		
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>prepare</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<goals>
+							<goal>report</goal>	
+						</goals>
+					</execution>			
+				</executions>
+			</plugin>
+			
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<reportsDirectory>${basedir}/../target/surefire-reports</reportsDirectory>
+						</configuration>			
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			
+		</plugins>
+		
+	</build>
+
+
+</project>

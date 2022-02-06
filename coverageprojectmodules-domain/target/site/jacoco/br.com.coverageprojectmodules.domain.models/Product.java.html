@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Product.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">coverageprojectmodules-domain</a> &gt; <a href="index.source.html" class="el_package">br.com.coverageprojectmodules.domain.models</a> &gt; <span class="el_source">Product.java</span></div><h1>Product.java</h1><pre class="source lang-java linenums">package br.com.coverageprojectmodules.domain.models;
+
+import java.math.BigDecimal;
+
+<span class="fc" id="L5">public class Product {</span>
+	
+	private Long id;
+	private String description;
+	private BigDecimal value;
+	private BigDecimal discount;
+	
+	public Long getId() {
+<span class="nc" id="L13">		return id;</span>
+	}
+	public void setId(Long id) {
+<span class="nc" id="L16">		this.id = id;</span>
+<span class="nc" id="L17">	}</span>
+	public String getDescription() {
+<span class="nc" id="L19">		return description;</span>
+	}
+	public void setDescription(String description) {
+<span class="nc" id="L22">		this.description = description;</span>
+<span class="nc" id="L23">	}</span>
+	public BigDecimal getValue() {
+<span class="fc" id="L25">		return getValueDiscount();</span>
+	}
+	public void setValue(BigDecimal value) {
+<span class="fc" id="L28">		this.value = value;</span>
+<span class="fc" id="L29">	}</span>
+	public BigDecimal getDiscount() {
+<span class="nc" id="L31">		return discount;</span>
+	}
+	public void setDiscount(BigDecimal discount) {
+<span class="fc" id="L34">		this.discount = discount;</span>
+<span class="fc" id="L35">	}</span>
+	
+	private BigDecimal getValueDiscount() {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		return this.discount == null ? this.value : </span>
+<span class="fc" id="L39">			this.value.add(this.value.multiply(this.discount.divide(BigDecimal.valueOf(100d))));</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

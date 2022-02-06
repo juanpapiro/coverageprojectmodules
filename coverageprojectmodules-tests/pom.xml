@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>br.com.coverageprojectmodules</groupId>
+		<artifactId>coverageprojectmodules</artifactId>
+		<version>1.1.0</version>
+	</parent>
+	
+	<artifactId>coverageprojectmodules-tests</artifactId>
+	<name>coverageprojectmodules-tests</name>
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>br.com.coverageprojectmodules</groupId>
+			<artifactId>coverageprojectmodules-application</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>br.com.coverageprojectmodules</groupId>
+			<artifactId>coverageprojectmodules-domain</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+	
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+						<configuration>
+							<title>JaCoCo</title>
+							<footer>Code Coverage Report for JaCoCo ${project.version}</footer>
+							<outputDirectory>${report-aggregate.dir}</outputDirectory>
+							<append>true</append>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>		
+		</plugins>
+	</build>
+	
+</project>
