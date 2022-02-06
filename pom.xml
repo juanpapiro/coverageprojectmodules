@@ -3,12 +3,23 @@
 
 	<groupId>br.com.coverageprojectmodules</groupId>
 	<artifactId>coverageprojectmodules</artifactId>
-	<version>1.1.0</version>
-	<name>coverageprojectmodules</name>
-	
 	<packaging>pom</packaging>
+	<version>1.1.0</version>
+	
 
 	<description>Exemplo de configuração jacoco para cobertura de testes no sonar de projeto multi módulo</description>
+	
+	<modules>
+		<module>coverageprojectmodules-application</module>
+		<module>coverageprojectmodules-domain</module>
+		<module>coverageprojectmodules-tests</module>
+	</modules>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.3</version>
+	</parent>
 	
 	<properties>
 		<java.version>1.8</java.version>
@@ -22,48 +33,51 @@
 		<report-aggregate.dir>${project.basedir}/../coverageprojectmodules-application/target/site/jacoco-agregate/</report-aggregate.dir>    
 	</properties>
 	
-	<modules>
-		<module>coverageprojectmodules-application</module>
-		<module>coverageprojectmodules-domain</module>
-		<module>coverageprojectmodules-tests</module>
-	</modules>
-	
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>2.6.3</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.12.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-		
-		
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>${jacoco.version}</version>
-			<type>maven-plugin</type>
-			<scope>test</scope>
-		</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.10.19</version>
+				<scope>test</scope>
+			</dependency>		
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<type>maven-plugin</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			</dependency>
 	</dependencies>
+	
+	<dependencyManagement>
+		<dependencies>		
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>coverageprojectmodules-application</artifactId>
+				<version>${project.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>coverageprojectmodules-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	
 	<build>
 		<plugins>
@@ -71,12 +85,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-compiler-plugin</artifactId>
-	            <version>3.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			
 		
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -88,13 +102,16 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<append>true</append>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
 						<goals>
 							<goal>report</goal>	
 						</goals>
-					</execution>			
+					</execution>	
 				</executions>
 			</plugin>
 			
@@ -119,7 +136,75 @@
 			
 		</plugins>
 		
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+				</plugin>
+				<!--
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.version}</version>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.evosuite.plugins</groupId>
+					<artifactId>evosuite.maven.plugin</artifactId>
+					<version>1.0.6</version>
+					<executions>
+						<execution>
+							<phase>process-test-classes</phase>
+							<goals>
+								<goal>prepare</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			
+				<plugin>
+			        <groupId>org.asciidoctor</groupId>
+			        <artifactId>asciidoctor-maven-plugin</artifactId>
+			        <version>1.5.7.1</version>
+			        <executions>
+			        	<execution>
+			        		<id>generate-docs</id>
+			        		<phase>prepare-package</phase>
+			        		<goals>
+			        			<goal>process-asciidoc</goal>
+			        		</goals>
+			        	</execution>
+			        </executions>
+			        <dependencies>
+			        	<dependency>
+			        		<groupId>org.springframework.restdocs</groupId>
+			        		<artifactId>spring-restdocs-asciidoctor</artifactId>
+			        		<version>2.0.3.RELEASE</version>
+			        	</dependency>
+			        </dependencies>
+			        <configuration>
+			        	<sourceDirectory>${user.dir}/docs/asciidoc</sourceDirectory>
+			        	<backend>html5</backend>
+			        	<doctype>book</doctype>
+			        	<attributes>
+			        		<snippets>${project.build.directory}/generated-snippets</snippets>
+			        		<source-highlighter>highlight.js</source-highlighter>
+			        	</attributes>
+			        </configuration>
+			    </plugin>
+				-->
+			</plugins>
+		</pluginManagement>
+		
 	</build>
+	
+
 
 
 </project>

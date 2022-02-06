@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
-Built-By: juanp
-Build-Jdk: 11.0.13
+Build-Jdk-Spec: 11
+Implementation-Title: coverageprojectmodules-application
+Implementation-Version: 1.1.0
 Created-By: Maven Integration for Eclipse
 
